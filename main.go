@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -10,11 +11,20 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", hello)
 
-	http.ListenAndServe(":8080", mux)
+	s := &http.Server{
+		Addr:		":8080",
+		Handler:	mux,
+		ReadTimeout:	2 * time.Second,
+		WriteTimeout: 	2 * time.Second,
+		IdleTimeout:	5 * time.Second,
+	}
+
+	s.ListenAndServe()
 }
 
 func hello (w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Hello, World!")
+
+	io.WriteString(w, "Hello, World!!!")
 }
 
 
