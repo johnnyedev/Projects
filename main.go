@@ -6,12 +6,15 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/hello", hello)
-	http.ListenAndServe(":8080", nil)
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/hello", hello)
+
+	http.ListenAndServe(":8080", mux)
 }
 
 func hello (w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Hello, world!")
+	io.WriteString(w, "Hello, World!")
 }
 
 
