@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"time"
+	"log"
 )
 
 func main() {
@@ -19,12 +20,15 @@ func main() {
 		IdleTimeout:	5 * time.Second,
 	}
 
-	s.ListenAndServe()
+	log.Println("Starting server :8080")
+	if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatal("Server startup failed")
+	}
 }
 
 func hello (w http.ResponseWriter, req *http.Request) {
 
-	io.WriteString(w, "Hello, World!!!")
+	io.WriteString(w, "Hello, World!!!!")
 }
 
 
